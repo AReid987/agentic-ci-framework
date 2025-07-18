@@ -1,0 +1,16 @@
+name: Developer Agent
+
+on:
+  issue_comment:
+    types: [created]
+    if: contains(github.event.comment.body, '/develop')
+
+jobs:
+  developer-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Developer Agent
+        uses: dagger/github-action@v5
+        with:
+          cmd: run developer-agent --issue=${{ github.event.issue.number }}
