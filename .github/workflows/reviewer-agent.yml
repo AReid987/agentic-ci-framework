@@ -1,0 +1,15 @@
+name: Reviewer Agent
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  reviewer-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Reviewer Agent
+        uses: dagger/github-action@v5
+        with:
+          cmd: run reviewer-agent --pr=${{ github.event.pull_request.number }}
