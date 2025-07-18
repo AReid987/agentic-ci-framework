@@ -1,0 +1,18 @@
+name: Debugger Agent
+
+on:
+  workflow_run:
+    workflows: ["Tests", "Linter"]
+    types:
+      - completed
+
+jobs:
+  debugger-agent:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Debugger Agent
+        uses: dagger/github-action@v5
+        with:
+          cmd: run debugger-agent --run-id=${{ github.event.workflow_run.id }}

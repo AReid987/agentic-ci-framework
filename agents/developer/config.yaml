@@ -1,0 +1,8 @@
+safety:
+  timeout: 1800
+  max_retries: 3
+  isolation_level: docker
+permissions:
+  repository: write
+  actions: read
+  contents: write
