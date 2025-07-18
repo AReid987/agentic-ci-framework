@@ -1,0 +1,12 @@
+autofix:
+  enabled: true
+  max_retries: 3
+  commit_message: "Auto-repair: Fixed {errors} in {files}"
+  doc_update: true
+safety:
+  timeout: 600
+  allowed_files:
+    - src/**
+    - tests/**
+  protected_branches:
+    - main
