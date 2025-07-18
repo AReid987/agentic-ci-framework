@@ -1,0 +1,26 @@
+name: Self-Healing CI
+
+on: [push, pull_request]
+
+jobs:
+  validate-and-repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run Tests
+        id: tests
+        run: npm test
+      - name: Auto Repair
+        if: failure() && steps.tests.outcome == 'failure'
+        uses: dagger/github-action@v5
+        with:
+          cmd: run repair-agent --retries=3 --push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CI_DEBUG: 'true'

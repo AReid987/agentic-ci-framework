@@ -1,26 +1,15 @@
 # Agentic CI Framework
 
-![Framework Diagram](docs/architecture.png)
-
-## Features
-```mermaid
-flowchart TB
-    A[Developer Agent] --> B[Automated Testing]
-    B --> C[Reviewer Agent]
-    C --> D[Debugger Agent]
-    D -->|Feedback| A
-```
-
-## Quick Start
+## Self-Healing Demo
 ```bash
-docker pull frdel/agent-zero-run
-docker run -p 50001:80 frdel/agent-zero-run
-# Visit http://localhost:50001
+# Create intentional error
+echo 'test("will fail", () => { expect(1).toBe(2) })' >> test/fail.test.js
+git add . && git commit -m "Test failure" && git push
+# Watch CI:
+# 1. Detects failure
+# 2. Auto-fixes test
+# 3. Recommits
+# 4. Passes on retry
 ```
 
-## Safety Protocols
-- Always run in Docker containers
-- Use least-privilege GitHub tokens
-- Automatic timeout (30m max per agent)
-
-[Full Documentation](docs/usage.md)
+[Full Usage Guide](docs/usage.md) | [Safety Protocols](docs/safety.md)

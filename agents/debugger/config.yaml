@@ -1,12 +1,15 @@
-autofix:
+autocommit:
   enabled: true
-  max_retries: 3
-  commit_message: "Auto-repair: Fixed {errors} in {files}"
-  doc_update: true
+  branch: ${{ github.ref }}
+  message: "fix: [CI-AUTO] Repair {issue} in {files}"
+  documentation:
+    require: true
+    paths:
+      - docs/**
+      - README.md
 safety:
+  max_retries: 3
   timeout: 600
-  allowed_files:
-    - src/**
-    - tests/**
   protected_branches:
     - main
+    - production
