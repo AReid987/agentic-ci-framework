@@ -5,22 +5,16 @@ on: [push, pull_request]
 jobs:
   validate-and-repair:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/kpenfound/greetings-api/agentic-ci:latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup Node
-        uses: actions/setup-node@v4
-      - name: Install Dependencies
-        run: npm ci
-      - name: Run Tests
-        id: tests
-        run: npm test
-      - name: Auto Repair
-        if: failure() && steps.tests.outcome == 'failure'
-        uses: dagger/dagger-for-github@v5
-        with:
-          cmd: run repair-agent --retries=3 --push
+      - name: Run Agentic Pipeline
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CI_DEBUG: 'true'
+          GITHUB_APP_ID: ${{ secrets.GH_APP_ID }}
+          GITHUB_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
+        run: |
+          dagger run \
+          --app-id=${GITHUB_APP_ID} \
+          --private-key=${GITHUB_APP_PRIVATE_KEY} \
+          agentic-ci repair
