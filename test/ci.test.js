@@ -1,1 +1,3 @@
-test("CI validation", () => { expect(1).toBe(2) })
+test("CI validation", () => {
+  expect(1).toBe(2);
+});
