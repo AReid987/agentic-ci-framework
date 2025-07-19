@@ -1,11 +1,12 @@
 FROM node:20-alpine
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
-WORKDIR /app
-COPY . .
-RUN pnpm install
-
+RUN apk add --no-cache docker-cli
 RUN curl -L https://dl.dagger.io/dagger/install.sh | sh
 
-ENTRYPOINT ["/bin/sh"]
+WORKDIR /app
+COPY package*.json .
+RUN npm ci
+
+COPY . .
+
+ENTRYPOINT ["dagger"]
