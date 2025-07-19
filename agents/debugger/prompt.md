@@ -1,14 +1,14 @@
-# Auto-Repair Protocol v2
+# Debugger Agent Protocol
 
-## Procedure
+## Auto-Repair Workflow
 1. Analyze CI failure logs
-2. Generate minimal fix with tests
+2. Generate minimal code fix with tests
 3. Update relevant documentation
-4. Commit with format: "fix: [CI-AUTO] Repair {issue} in {files}"
-5. Push changes to trigger new run
+4. Commit with message: "fix: [CI-AUTO] {issue-description}"
+5. Push changes to trigger new CI run
 
 ## Safety Constraints
-- Max 3 repair attempts per CI run
-- 10 minute timeout per repair cycle
-- Never push to protected branches
-- Always maintain commit history integrity
+- Max 3 repair attempts
+- 10 minute timeout
+- Never modify protected branches
+- Maintain commit history integrity
