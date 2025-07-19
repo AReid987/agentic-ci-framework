@@ -12,7 +12,7 @@ jobs:
         run: npm test
       - name: Auto Repair Loop
         if: failure()
-        uses: dagger/github-action@v5
+        uses: daggerlabs/dagger-github-action@v5
         with:
           cmd: run repair-agent --retries=3 --push-branch=${{ github.ref }}
         env:
