@@ -6,7 +6,7 @@ jobs:
   self-healing:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/areid987/agentic-ci:latest
+      image: docker.io/areid987/agentic-ci:latest
     steps:
       - uses: actions/checkout@v4
       - name: Run Repair Agent
