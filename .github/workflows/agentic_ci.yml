@@ -7,8 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: docker.io/areid987/agentic-ci:latest
+      options: --platform linux/amd64
     steps:
       - uses: actions/checkout@v4
+      - name: Initialize Dagger
+        run: dagger mod init
       - name: Run Repair Agent
         env:
           APP_ID: ${{ secrets.GH_APP_ID }}
