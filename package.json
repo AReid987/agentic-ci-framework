@@ -1,0 +1,13 @@
+{
+  "name": "agentic-ci-framework",
+  "version": "1.0.0",
+  "description": "Agentic CI Framework using Dagger",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/*.test.js"
+  },
+  "keywords": ["ci", "dagger", "framework"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {}
+}

@@ -2,10 +2,11 @@ FROM node:20-alpine
 
 RUN apk add --no-cache docker-cli
 RUN curl -L https://dl.dagger.io/dagger/install.sh | sh
+RUN npm install -g pnpm
 
 WORKDIR /app
-COPY package*.json .
-RUN npm ci
+COPY package.json pnpm-lock.yaml .
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
