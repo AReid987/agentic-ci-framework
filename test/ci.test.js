@@ -1,5 +1,5 @@
-const { test, expect } = require('jest');
+const { test, expect } = require('@jest/globals');
 
-test("CI validation", () => {
+test('CI validation', () => {
   expect(1).toBe(1);
 });
