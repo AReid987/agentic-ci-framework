@@ -1,6 +1,6 @@
 name: Agentic CI
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   self-healing:
@@ -11,7 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Initialize Dagger
-        run: dagger mod init
+        run: |
+          dagger mod init
+          cat dagger.json
+      - name: Install Dependencies
+        run: npm ci
       - name: Run Tests
         run: npm test
       - name: Auto Repair
