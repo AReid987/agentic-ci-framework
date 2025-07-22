@@ -1,20 +1,28 @@
 name: Agentic CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   self-healing:
     runs-on: ubuntu-latest
     container:
+      # CORRECTED: Use Docker Hub image path and specify platform
       image: docker.io/areid987/agentic-ci:latest
       options: --platform linux/amd64
     steps:
       - uses: actions/checkout@v4
-      - name: Initialize Dagger
+      - name: Verify Dagger Installation
+        # Added steps to verify Dagger CLI is available and working
+        run: |
+          which dagger
+          dagger version
+      - name: Initialize Dagger Module
+        # Ensure dagger.json is created and visible
         run: |
           dagger mod init
+          ls -la
           cat dagger.json
-      - name: Install Dependencies
+      - name: Install Node Dependencies
         run: npm ci
       - name: Run Tests
         run: npm test
@@ -24,6 +32,7 @@ jobs:
           APP_ID: ${{ secrets.GH_APP_ID }}
           APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
         run: |
+          # Ensure dagger run command is correct
           dagger run \
           --app-id=${APP_ID} \
           --private-key="${APP_PRIVATE_KEY}" \

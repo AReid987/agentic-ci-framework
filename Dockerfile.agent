@@ -1,16 +1,19 @@
 FROM --platform=linux/amd64 node:20-alpine
 
-RUN apk add --no-cache docker-cli libc6-compat bash curl
-RUN curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.11.9 bash && \
-    mkdir -p /root/.dagger/bin && \
-    mv ./bin/dagger /root/.dagger/bin/dagger && \
-    chmod +x /root/.dagger/bin/dagger
-ENV PATH="/root/.dagger/bin:$PATH"
+# Install common tools and Docker CLI
+RUN apk add --no-cache bash curl git openssh-client docker-cli
+
+# Install Dagger CLI and ensure it's in PATH
+RUN curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.11.9 sh
+ENV PATH="/root/.dagger/bin:${PATH}"
 
 WORKDIR /app
-COPY package*.json .
+COPY package*.json ./
+# Install Jest as a dev dependency
 RUN npm install --save-dev jest@29.7.0
 COPY . .
 
+# Initialize Dagger module within the Docker image build
 
-ENTRYPOINT ["dagger"]
+# Change entrypoint to bash to allow direct command execution in workflow steps
+ENTRYPOINT ["bash"]

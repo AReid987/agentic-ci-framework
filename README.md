@@ -1,5 +1,7 @@
 # Agentic CI Framework
 
+![Alt](https://repobeats.axiom.co/api/embed/87d9970c4f808bb35e6c043ee759864887e785ee.svg "Repobeats analytics image")
+
 ## Self-Healing Demo
 ```bash
 # Create intentional error
