@@ -1,13 +1,16 @@
 FROM --platform=linux/amd64 node:20-alpine
 
-RUN apk add --no-cache docker-cli
-RUN curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.11.9 sh
+RUN apk add --no-cache docker-cli libc6-compat bash curl
+RUN curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.11.9 bash && \
+    mkdir -p /root/.dagger/bin && \
+    mv ./bin/dagger /root/.dagger/bin/dagger && \
+    chmod +x /root/.dagger/bin/dagger
+ENV PATH="/root/.dagger/bin:$PATH"
 
 WORKDIR /app
 COPY package*.json .
 RUN npm install --save-dev jest@29.7.0
 COPY . .
 
-RUN dagger mod init
 
 ENTRYPOINT ["dagger"]
